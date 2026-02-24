@@ -2,6 +2,7 @@
 <html>
 <head>
 <title>Happy Birthday Meenu 💕</title>
+
 <style>
 body {
   margin: 0;
@@ -9,28 +10,81 @@ body {
   text-align: center;
   font-family: Arial;
   color: white;
+  overflow: hidden;
 }
-h1 {
-  margin-top: 30px;
-  font-size: 35px;
+
+#countdown {
+  font-size: 60px;
+  margin-top: 40%;
 }
+
 video {
-  margin-top: 20px;
   width: 95%;
   border-radius: 15px;
+  display: none;
+}
+
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 </style>
 </head>
 <body>
 
-<h1>🎉 Happy Birthday Meenu 💕🙈</h1>
-<h2>This surprise is only for you 💖</h2>
+<div id="countdown">3</div>
 
-<video controls autoplay>
+<h1 id="title" style="display:none;">🎉 Happy Birthday Meenu 💕🙈</h1>
+
+<video id="bdayVideo" controls autoplay>
   <source src="bday.mp4" type="video/mp4">
 </video>
 
-<h3>Forever smiling Meenu 💫</h3>
+<canvas id="fireworks"></canvas>
+
+<script>
+let count = 3;
+let countdownEl = document.getElementById("countdown");
+let video = document.getElementById("bdayVideo");
+let title = document.getElementById("title");
+
+let interval = setInterval(() => {
+  count--;
+  if(count > 0){
+    countdownEl.innerText = count;
+  } else {
+    countdownEl.innerText = "🎉";
+    clearInterval(interval);
+    setTimeout(() => {
+      countdownEl.style.display = "none";
+      video.style.display = "block";
+      title.style.display = "block";
+      startFireworks();
+    },1000);
+  }
+},1000);
+
+let canvas = document.getElementById("fireworks");
+let ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+function startFireworks(){
+  setInterval(()=>{
+    ctx.fillStyle="rgba(0,0,0,0.2)";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    for(let i=0;i<5;i++){
+      ctx.beginPath();
+      ctx.arc(Math.random()*canvas.width,
+              Math.random()*canvas.height,
+              3,0,Math.PI*2);
+      ctx.fillStyle="hsl("+Math.random()*360+",100%,50%)";
+      ctx.fill();
+    }
+  },100);
+}
+</script>
 
 </body>
 </html>
